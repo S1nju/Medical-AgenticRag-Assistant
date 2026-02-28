@@ -1,7 +1,67 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "medical-agenticrag-assistant"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.13"
-dependencies = []
+description = "Medical RAG Assistant with LangGraph, NeDRex API, and Chainlit UI"
+requires-python = ">=3.11"
+authors = [{name = "Medical AI Team"}]
+license = {text = "MIT"}
+dependencies = [
+    "chainlit>=2.9.6",
+    "langchain>=1.2.10",
+    "langchain-qwq>=0.3.4",
+    "langgraph>=1.0.10",
+    "langsmith>=0.7.9",
+    "numpy>=2.4.2",
+    "pydantic>=2.12.5",
+    "qdrant-client>=1.17.0",
+    "sentence-transformers>=5.2.3",
+]
+
+[tool.hatch.build.targets.wheel]     
+packages = ["app"]
+
+dependencies = [
+    # Core dependencies
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.5.3",
+    "pydantic-settings>=2.1.0",
+    
+    # LangChain & LangGraph
+    "langchain>=1.2.10",
+    "langchain-community>=0.1.0",
+    "langchain-openai>=0.1.0",
+    "langgraph<=1.0.8",
+    "typing-extensions>=4.15.0",
+    
+    # Vector Store & Embeddings
+    "qdrant-client>=1.7.3",
+    "sentence-transformers>=2.3.1",
+    "transformers>=4.37.2",
+    "torch>=2.1.2",
+    
+    # Sparse embeddings & re-ranking
+    "fastembed>=0.2.2",
+    "numpy>=1.26.3",
+    
+    # Framework & Web
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "chainlit>=1.0.0",
+    "httpx>=0.26.0",
+    "aiohttp>=3.9.1",
+    "requests>=2.31.0",
+    
+    # Data processing
+    "pandas>=2.2.0",
+    "pyarrow>=14.0.0",
+    
+    # Translation
+    "deep-translator>=1.11.4",
+    
+    # Utilities
+    "loguru>=0.7.2",
+]

@@ -2,6 +2,9 @@ import logging
 from typing import Optional
 from uuid import uuid4
 
+from IPython.display import display,Image
+
+
 from app.agents.nodes.chat import ChatNode
 from langgraph.graph import StateGraph, START, END
 
@@ -65,11 +68,13 @@ class MedicalRAGGraph:
         workflow.add_edge("chat", END)  # After chitchat response, still go to judge for validation
         workflow.add_edge("tools", "synthesize")
         workflow.add_edge("synthesize", "judge")
-        workflow.add_edge("judge", END)
-        
+        workflow.add_edge("judge", END)  
         # Compile
         compiled = workflow.compile()
         logger.info("Graph compiled and ready")
+        
+        with open("graph_diagram.png", "wb") as f:
+            f.write(compiled.get_graph().draw_mermaid_png())
         return compiled
     
     def _translate_step(self, state: AgentState) -> AgentState:

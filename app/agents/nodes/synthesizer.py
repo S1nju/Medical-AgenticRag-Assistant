@@ -96,13 +96,20 @@ class SynthesizerNode:
         context = "Retrieved Information:\n\n"
         has_context = False
         
-        if db_results:
+        if not db_results or  db_results[0].get("content", "").strip() == "":
+            has_context = False
+        else:
             has_context = True
             context += "From French Drug Database:\n"
-            for doc in db_results[:3]:  # Top 3 docs
+            for doc in db_results[:3]:
+                  # Top 3 docs
+                metadata = doc.get("metadata", {})
                 content = doc.get('content', '')
-                if isinstance(content, str):
-                    context += f"- {content[:200]}...\n"
+                if isinstance(content, str) and content.strip() != "":
+                    context += f"- {content[:200]}\n"
+                if isinstance(metadata, dict) :
+                    meta_str = ", ".join(f"{k}: {v}" for k, v in metadata.items())
+                    context += f"- {meta_str}\n"
         
         if nedrex_results and nedrex_results.get("success", False):
             has_context = True
@@ -125,6 +132,7 @@ Structure your response with:
 
 {context}
 
+if there is no context or it qritten in point dont answer the question and say that you don't have enough information to answer the question. say i didnt find the information in the retrieved documents.
 Respond in the same language as the user's original question.
 Be clear, accurate, and healthcare-focused."""
         

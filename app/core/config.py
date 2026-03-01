@@ -88,7 +88,7 @@ class Settings(BaseSettings):
     langsmith_project: str = Field(default="medical-rag-assistant", env="LANGCHAIN_PROJECT")
     langsmith_endpoint: str = Field(default="https://api.smith.langchain.com", env="LANGCHAIN_ENDPOINT")
     langsmith_tracing: bool = Field(default=True, env="LANGCHAIN_TRACING_V2")
-    
+    huggingface_token: Optional[str] = Field(default=None, env="HF_TOKEN")
     # ============================================================================
     # APPLICATION
     # ============================================================================

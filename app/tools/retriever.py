@@ -23,7 +23,6 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 import torch
 import logging
-
 from app.core.config import settings
 
 logging.basicConfig(level=logging.INFO)
@@ -114,15 +113,58 @@ class HybridRetriever:
         
         # Initialize models
         logger.info(f"Loading dense encoder: {self.dense_model_name}")
-        self.dense_encoder = SentenceTransformer(self.dense_model_name)
+        self.dense_encoder = SentenceTransformer("Mehd212/camembert-bio-morpho-bi-encoder", token=settings.huggingface_token)
         
         logger.info(f"Loading sparse encoder: {self.sparse_model_name}")
-        self.sparse_encoder = SparseEncoder(self.sparse_model_name)
+        self.sparse_encoder = SparseEncoder("prithivida/Splade_PP_en_v1")
         
         logger.info(f"Loading re-ranker: {self.reranker_model_name}")
         self.reranker = CrossEncoder(self.reranker_model_name)
         
         logger.info("Hybrid retriever initialized successfully")
+
+    def _resolve_dense_vector_name(self) -> Optional[str]:
+        """
+        Resolve the correct dense vector name for the target collection.
+
+        Returns:
+            - vector name (e.g., "dense") if collection uses named vectors
+            - None if collection uses unnamed/default single vector
+        """
+        try:
+            collection_info = self.client.get_collection(self.collection_name)
+            vectors_cfg = getattr(getattr(getattr(collection_info, "config", None), "params", None), "vectors", None)
+
+            if vectors_cfg is None:
+                logger.warning("Could not read vectors config; defaulting to named vector 'dense'")
+                return "dense"
+
+            if isinstance(vectors_cfg, dict):
+                if "dense" in vectors_cfg:
+                    return "dense"
+                vector_names = list(vectors_cfg.keys())
+                if vector_names:
+                    logger.info(f"Using available named vector: {vector_names[0]}")
+                    return vector_names[0]
+
+            if hasattr(vectors_cfg, "keys"):
+                vector_names = list(vectors_cfg.keys())
+                if "dense" in vector_names:
+                    return "dense"
+                if vector_names:
+                    logger.info(f"Using available named vector: {vector_names[0]}")
+                    return vector_names[0]
+
+            if hasattr(vectors_cfg, "size"):
+                logger.info("Collection uses unnamed single-vector configuration")
+                return None
+
+            logger.warning("Unknown vectors config format; defaulting to named vector 'dense'")
+            return "dense"
+
+        except Exception as e:
+            logger.warning(f"Could not resolve vector name from collection schema: {e}. Falling back to 'dense'.")
+            return "dense"
     
     def encode_query_dense(self, query: str) -> List[float]:
         """Encode query using dense encoder."""
@@ -149,27 +191,26 @@ class HybridRetriever:
         
         # Encode query with both methods
         dense_vector = self.encode_query_dense(query)
-        sparse_vector = self.encode_query_sparse(query)
+        dense_vector_name = self._resolve_dense_vector_name()
         
         try:
-            # Perform hybrid search in Qdrant
-            # Note: This is a simplified version. In production, you'd use Qdrant's
-            # query API with proper fusion of dense and sparse results
-            results = self.client.search(
-                collection_name=self.collection_name,
-                query_vector=("dense", dense_vector),
-                limit=limit,
-                with_payload=True,
-                with_vectors=False
-            )
+
+            query_vector = (dense_vector_name, dense_vector) if dense_vector_name else dense_vector
+            results = self.client.query_points(
+                    collection_name=self.collection_name,
+                    query=query_vector,
+                    limit=limit,
+                    with_payload=True,
+                    with_vectors=False,
+                )
             
             # Convert results to dict format
             documents = []
-            for point in results:
+            for point in results.points:
                 doc = {
                     "id": point.id,
-                    "content": point.payload.get("content", ""),
-                    "metadata": point.payload.get("metadata", {}),
+                    "content": "",
+                    "metadata": point.payload,
                     "score": point.score,
                 }
                 documents.append(doc)
@@ -242,7 +283,7 @@ class HybridRetriever:
     
     def initialize_collection(
         self,
-        vector_size: int = 1024,
+        vector_size: int = 384,
         distance: Distance = Distance.COSINE,
         force_recreate: bool = False
     ):

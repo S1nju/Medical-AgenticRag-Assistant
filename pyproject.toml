@@ -11,6 +11,7 @@ authors = [{name = "Medical AI Team"}]
 license = {text = "MIT"}
 dependencies = [
     "chainlit>=2.9.6",
+    "ipython>=9.10.0",
     "langchain>=1.2.10",
     "langchain-qwq>=0.3.4",
     "langgraph>=1.0.10",

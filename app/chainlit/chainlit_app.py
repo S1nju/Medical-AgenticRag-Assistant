@@ -125,7 +125,7 @@ async def on_message(message: cl.Message):
         
       
             # Run the workflow
-            result = graph.ainvoke(user_query, conversation_id)
+            result = graph.invoke(user_query, conversation_id)
             
             # Extract info
             response_text = result.get("response", "")

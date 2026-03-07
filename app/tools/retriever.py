@@ -209,7 +209,7 @@ class HybridRetriever:
             for point in results.points:
                 doc = {
                     "id": point.id,
-                    "content": "",
+                    "content": point.payload.get("chunk_text"),
                     "metadata": point.payload,
                     "score": point.score,
                 }

@@ -46,10 +46,11 @@ class JudgeNode:
             state["validation_notes"] = "No retrieved data to validate against"
             return state
         
-        # Build validation context
+        # Build validation conttraitement potraitement pour la constipationur la constipationext
         context = "Retrieved Information:\n"
         for doc in db_results[:3]:
-            context += f"- {doc.get('content', '')[:150]}...\n"
+                
+            context += f"- {doc['content'][:150]}...\n"
         
         system_prompt = f"""You are a medical accuracy validator.
 

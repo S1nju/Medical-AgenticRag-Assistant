@@ -66,3 +66,7 @@ dependencies = [
     # Utilities
     "loguru>=0.7.2",
 ]
+
+[tool.pyright]
+include = ["app"]
+extraPaths = ["."]

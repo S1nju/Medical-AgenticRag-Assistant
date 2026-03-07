@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/white.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	
+	<style>
+		/* Minimalistic styling for title slide */
+		.reveal .slides section.title-slide {
+			text-align: center;
+		}
+		
+		.reveal .slides section.title-slide .ministry {
+			font-size: 0.8em;
+			color: #666;
+		
+		}
+		
+		.reveal .slides section.title-slide .school {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			justify-content: center;
+			
+		
+		}
+		
+		.reveal .slides section.title-slide .school img {
+			vertical-align: middle;
+		}
+		
+		.reveal .slides section.title-slide h2 {
+			font-size: 2.2em !important;
+			margin: 35px 0 !important;
+			font-weight: 300;
+			letter-spacing: 1px;
+		}
+		
+		.reveal .slides section.title-slide  {
+			display: flex;
+			justify-content: center;
+			gap: 40px;
+			margin: 20px 0;
+			font-size: 0.95em;
+		}
+		
+		.reveal .slides section.title-slide hr {
+			border: none;
+			height: 1px;
+			background: #ddd;
+			margin: 35px auto;
+			width: 60%;
+		}
+		
+		.reveal .slides section.title-slide .team-section {
+			margin-top: 25px;
+		}
+		
+		.reveal .slides section.title-slide ul {
+			list-style: none !important;
+			padding: 0 !important;
+			margin: 15px 0 0 0 !important;
+		}
+		
+		.reveal .slides section.title-slide ul li {
+			display: inline-block;
+			margin: 0 15px;
+			font-size: 1em;
+		}
+		.team-info {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			gap: 60px;
+			
+		}
+		.normalsection{
+			display: flex;
+			gap: 40px;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+		
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section class="title-slide">
+				<p class="ministry">Ministère de l'Enseignement Superieur et de la Recherche Scientifique</p>
+				<p class="school">
+					<img src="images/enpologo.jpg" alt="ENPO Logo" width="50" height="50">
+					<span>Ecole nationale polytechnique d'oran</span>
+					<img src="images/enpologo.jpg" alt="ENPO Logo" width="50" height="50">
+				</p>
+				<h2>Alibaba Cloud</h2>
+				<div class="team-info">
+				<div class="team-section">
+					
+					<ul>
+						<li>Bouhaik Anes</li>
+						<li>Harir Mahmoud</li>
+					</ul>
+				</div>
+				<div class="info-grid">
+					
+					<p><strong>Lieu et Date:</strong> 2026 a Oran </p>
+				</div>
+				</div>
+				<hr>
+	
+			</section>
+			<section >
+				<section>
+					<h3>Table des matieres</h3>
+					<ol>
+						<li>Introduction a Alibaba Cloud</li>
+						<li>Services principaux</li>
+						<li>Architecture et securite</li>
+						<li>Cas d'usage en entreprise</li>
+						<li>Demonstration rapide</li>
+						<li>Conclusion et perspectives</li>
+					</ol>
+				</section>
+				<section class="normalsection">
+					<div>
+					<h3>1. Introduction a Alibaba Cloud</h3>
+					<p>Contexte, objectifs et positionnement dans le marche du cloud.</p>
+					</div>
+					<div>
+						<img src="images/intro.jpg" alt="Introduction Image" width="400">
+					</div>
+				</section>
+			</section>
+			<section>Slide 2</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			slideNumber: true,
+			showSlideNumber: 'all',
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
+</html>

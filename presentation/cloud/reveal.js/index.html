@@ -13,13 +13,214 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
 	<!-- Theme used for syntax highlighted code -->
 	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<style>
+		:root {
+			--accent: #ff8a37;
+			--accent-2: #38d2ff;
+			--panel: rgba(28, 29, 44, 0.88);
+			--panel-border: rgba(255, 255, 255, 0.14);
+			--good: #50fa7b;
+			--warn: #f1fa8c;
+			--text-dim: #c2c7df;
+		}
+
+		.alicloud-section {
+			text-align: left;
+		}
+
+		.section-kicker {
+			font-size: 0.78em;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: var(--accent-2);
+			margin-bottom: 0.35em;
+		}
+
+		.title-slide {
+			text-align: left;
+		}
+
+		.hero-title {
+			font-size: 1.35em;
+			line-height: 1.1;
+			margin: 0.1rem 0 0.35rem 0;
+			color: #f5f6ff;
+		}
+
+		.hero-subtitle {
+			font-size: 0.56em;
+			color: var(--text-dim);
+			margin: 0;
+		}
+
+		.people-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			gap: 1rem;
+			font-size: 0.6em;
+			color: #ecedff;
+		}
+
+		.alicloud-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 1rem;
+			margin-top: 0.8rem;
+		}
+
+		.info-card {
+			background: linear-gradient(140deg, var(--panel), rgba(17, 18, 28, 0.92));
+			border: 1px solid var(--panel-border);
+			border-radius: 14px;
+			padding: 0.9rem 1rem;
+			box-shadow: 0 8px 26px rgba(0, 0, 0, 0.28);
+		}
+
+		.info-card h4 {
+			font-size: 0.8em;
+			color: var(--accent);
+			margin: 0 0 0.45rem 0;
+		}
+
+		.info-card p,
+		.info-card li {
+			font-size: 0.64em;
+			line-height: 1.55;
+			color: #ecedff;
+		}
+
+		.info-card ul {
+			margin: 0;
+			padding-left: 1.15rem;
+		}
+
+		.metrics-row {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 0.8rem;
+			margin-top: 0.8rem;
+		}
+
+		.metric-chip {
+			background: rgba(56, 210, 255, 0.1);
+			border: 1px solid rgba(56, 210, 255, 0.35);
+			border-radius: 12px;
+			padding: 0.7rem;
+			text-align: center;
+		}
+
+		.metric-chip .value {
+			font-size: 1.25em;
+			font-weight: 700;
+			color: var(--good);
+		}
+
+		.metric-chip .label {
+			display: block;
+			margin-top: 0.2rem;
+			font-size: 0.52em;
+			color: var(--text-dim);
+		}
+
+		.bars-wrap {
+			margin-top: 1rem;
+		}
+
+		.bar {
+			display: grid;
+			grid-template-columns: 180px 1fr 56px;
+			align-items: center;
+			gap: 0.7rem;
+			margin-bottom: 0.45rem;
+			font-size: 0.56em;
+		}
+
+		.bar-track {
+			height: 11px;
+			border-radius: 99px;
+			background: rgba(255, 255, 255, 0.1);
+			overflow: hidden;
+		}
+
+		.bar-fill {
+			height: 100%;
+			width: 0;
+			border-radius: inherit;
+			background: linear-gradient(90deg, var(--accent), var(--accent-2));
+			transition: width 1.2s ease;
+		}
+
+		.fragment.visible .bar-fill.w-6 {
+			width: 6%;
+		}
+
+		.fragment.visible .bar-fill.w-12 {
+			width: 12%;
+		}
+
+		.fragment.visible .bar-fill.w-24 {
+			width: 24%;
+		}
+
+		.fragment.visible .bar-fill.w-31 {
+			width: 31%;
+		}
+
+		.fragment.visible .bar-fill.w-47 {
+			width: 47%;
+		}
+
+		.plot-card {
+			margin-top: 1rem;
+			background: rgba(6, 8, 16, 0.62);
+			border: 1px solid rgba(255, 255, 255, 0.16);
+			border-radius: 14px;
+			padding: 0.8rem;
+		}
+
+		.plot-card svg {
+			width: 100%;
+			height: auto;
+		}
+
+		.service-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.45rem;
+			margin-top: 0.8rem;
+		}
+
+		.service-tag {
+			font-size: 0.5em;
+			padding: 0.35rem 0.55rem;
+			border-radius: 999px;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			background: rgba(255, 255, 255, 0.08);
+		}
+
+		@media (max-width: 980px) {
+			.alicloud-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.metrics-row {
+				grid-template-columns: 1fr;
+			}
+
+			.bar {
+				grid-template-columns: 120px 1fr 48px;
+			}
+		}
+	</style>
 
 </head>
 
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section class="title-slide">
+			<section style="text-align: center;" class="title-slide">
 				<p class="ministry">Ministère de l'Enseignement Superieur et de la Recherche Scientifique</p>
 				<p class="school">
 					
@@ -35,13 +236,7 @@
 						<li>Harir Mahmoud</li>
 					</ul>
 				</div>
-				<div class="info-grid">
-					
-					<p><strong>Lieu et Date:</strong> 1/4/2026 - Oran </p>
-				</div>
-				</div>
-				
-	
+
 			</section>
 			<section >
 				<section>
@@ -55,17 +250,201 @@
 						<li>Conclusion et perspectives</li>
 					</ol>
 				</section>
-				<section class="normalsection">
-					<div>
-					<h3>1. Introduction a Alibaba Cloud</h3>
-					<p>Contexte, objectifs et positionnement dans le marche du cloud.</p>
+				<section style="text-align: left;" class="normalsection alicloud-section" data-auto-animate>
+					<p class="section-kicker">Introduction</p>
+					<h3 data-id="intro-title">1. Introduction à Alibaba Cloud</h3>
+					<div class="alicloud-grid">
+						<div class="info-card fragment fade-up">
+							<h4>Contexte</h4>
+							<p>
+								Le cloud computing a profondément transformé les technologies de l'information modernes.
+								De nombreuses entreprises migrent leurs centres de données locaux vers le cloud pour réduire les coûts
+								et améliorer leur agilité opérationnelle.
+							</p>
+						</div>
+						<div class="info-card fragment fade-up" data-fragment-index="1">
+							<h4>Pourquoi ce choix</h4>
+							<p>
+								Plutôt que de construire et maintenir de nouveaux datacenters coûteux, les entreprises préfèrent
+								s'appuyer sur des services cloud prêts à l'emploi et évolutifs.
+							</p>
+						</div>
 					</div>
-					<div>
-						<img src="images/intro.jpg" alt="Introduction Image" width="400">
+					<div class="service-tags fragment" data-fragment-index="2">
+						<span class="service-tag">Réduction des coûts</span>
+						<span class="service-tag">Agilité</span>
+						<span class="service-tag">Scalabilité</span>
+						<span class="service-tag">Déploiement rapide</span>
 					</div>
 				</section>
 			</section>
-			<section>Slide 2</section>
+			<section class="alicloud-section">
+				<section class="normalsection" data-auto-animate>
+					<p class="section-kicker">Cloud Computing par Alibaba</p>
+					<h3 data-id="ali-title">Alibaba Cloud : Position et contexte</h3>
+					<div class="alicloud-grid">
+						<div class="info-card fragment fade-up">
+							<h4>Position dans l'industrie</h4>
+							<p>
+								Selon les recherches de Gartner, Alibaba Cloud conserve une position solide parmi les fournisseurs cloud mondiaux.
+								Fondee en 2009 pour soutenir les plateformes du groupe Alibaba, elle sert aujourd'hui des organisations dans le monde entier.
+							</p>
+						</div>
+						<div class="info-card fragment fade-up" data-fragment-index="1">
+							<h4>Signal de croissance</h4>
+							<p>
+								Alibaba Cloud a enregistre une croissance positive des profits apres 11 ans, acceleree par la vague de numerisation
+								liee au COVID-19 et l'adoption mondiale du cloud.
+							</p>
+						</div>
+					</div>
+					<div class="metrics-row">
+						<div class="metric-chip fragment zoom-in" data-fragment-index="2">
+							<span class="value">2009</span>
+							<span class="label">Annee de creation</span>
+						</div>
+						<div class="metric-chip fragment zoom-in" data-fragment-index="3">
+							<span class="value">6%</span>
+							<span class="label">Part mondiale cible (2020)</span>
+						</div>
+						<div class="metric-chip fragment zoom-in" data-fragment-index="4">
+							<span class="value">11y</span>
+							<span class="label">Avant la premiere croissance positive</span>
+						</div>
+					</div>
+				</section>
+
+				<section class="normalsection" data-auto-animate>
+					<p class="section-kicker">Vue de la part de marche</p>
+					<h3 data-id="ali-title">Alibaba Cloud en IaaS / IUS</h3>
+					<p style="font-size: 0.62em; color: #d9dcf6;">
+						Alibaba Cloud detient la plus grande part de marche en Chine et en Asie-Pacifique pour l'IaaS/IUS,
+						ce qui la positionne comme le principal fournisseur d'infrastructure de la region.
+					</p>
+					<div class="bars-wrap">
+						<div class="bar fragment fade-right">
+							<span>Alibaba Cloud</span>
+							<div class="bar-track"><div class="bar-fill w-47"></div></div>
+							<span>47%</span>
+						</div>
+						<div class="bar fragment fade-right" data-fragment-index="1">
+							<span>Fournisseur B</span>
+							<div class="bar-track"><div class="bar-fill w-31"></div></div>
+							<span>31%</span>
+						</div>
+						<div class="bar fragment fade-right" data-fragment-index="2">
+							<span>Fournisseur C</span>
+							<div class="bar-track"><div class="bar-fill w-24"></div></div>
+							<span>24%</span>
+						</div>
+						<div class="bar fragment fade-right" data-fragment-index="3">
+							<span>Fournisseur D</span>
+							<div class="bar-track"><div class="bar-fill w-12"></div></div>
+							<span>12%</span>
+						</div>
+						<div class="bar fragment fade-right" data-fragment-index="4">
+							<span>Autres</span>
+							<div class="bar-track"><div class="bar-fill w-6"></div></div>
+							<span>6%</span>
+						</div>
+					</div>
+					<p class="fragment" style="font-size: 0.48em; color: #aeb5d7; margin-top: 0.35rem;">
+						Visualisation indicative construite a partir du contexte fourni pour illustrer la domination regionale relative.
+					</p>
+				</section>
+
+				<section class="normalsection">
+					<p class="section-kicker">Portefeuille</p>
+					<h3>Services Alibaba Cloud</h3>
+					<div class="alicloud-grid">
+						<div class="info-card fragment fade-in">
+							<h4>Modeles de service principaux</h4>
+							<ul>
+								<li><strong>IaaS :</strong> Infrastructure elastique et calcul virtualise.</li>
+								<li><strong>PaaS :</strong> Services de plateforme geres pour le deploiement applicatif.</li>
+								<li><strong>Couche de calcul :</strong> Machines virtuelles ECS sur hyperviseurs Xen et KVM.</li>
+							</ul>
+						</div>
+						<div class="info-card fragment fade-in" data-fragment-index="1">
+							<h4>Services de l'ecosysteme</h4>
+							<ul>
+								<li>Service de stockage d'objets</li>
+								<li>CDN (reseau de diffusion de contenu)</li>
+								<li>Cloud Container Service base sur Docker</li>
+								<li>Cloud prive Apsara Stack</li>
+								<li>Famille Apsara DB</li>
+								<li>Cloud Intelligence Brain (plateforme IA)</li>
+							</ul>
+						</div>
+					</div>
+					<div class="service-tags fragment" data-fragment-index="2">
+						<span class="service-tag">ECS</span>
+						<span class="service-tag">KVM</span>
+						<span class="service-tag">Xen</span>
+						<span class="service-tag">OSS</span>
+						<span class="service-tag">CDN</span>
+						<span class="service-tag">Apsara Stack</span>
+						<span class="service-tag">Apsara DB</span>
+						<span class="service-tag">Plateforme IA</span>
+					</div>
+				</section>
+
+				<section class="normalsection">
+					<p class="section-kicker">Cout et performance</p>
+					<h3>Avantage economique et compromis</h3>
+					<div class="plot-card">
+						<svg viewBox="0 0 860 300" role="img" aria-label="Comparaison cout et performance d'Alibaba Cloud">
+							<defs>
+								<linearGradient id="costGrad" x1="0" y1="0" x2="1" y2="0">
+									<stop offset="0%" stop-color="#ff8a37" />
+									<stop offset="100%" stop-color="#38d2ff" />
+								</linearGradient>
+							</defs>
+							<line x1="80" y1="36" x2="80" y2="250" stroke="#8d93b5" stroke-width="1" />
+							<line x1="80" y1="250" x2="820" y2="250" stroke="#8d93b5" stroke-width="1" />
+							<text x="18" y="66" fill="#cfd4f0" font-size="15">Eleve</text>
+							<text x="18" y="250" fill="#cfd4f0" font-size="15">Faible</text>
+							<text x="94" y="281" fill="#cfd4f0" font-size="14">Cout</text>
+							<text x="264" y="281" fill="#cfd4f0" font-size="14">Efficacite CPU/Memoire</text>
+							<text x="528" y="281" fill="#cfd4f0" font-size="14">Temps de reponse aux USA</text>
+
+							<rect class="fragment" x="122" y="90" width="110" height="160" fill="url(#costGrad)" rx="8" />
+							<rect class="fragment" data-fragment-index="1" x="342" y="60" width="110" height="190" fill="#50fa7b" rx="8" />
+							<rect class="fragment" data-fragment-index="2" x="562" y="138" width="110" height="112" fill="#f1fa8c" rx="8" />
+
+							<text class="fragment" x="137" y="84" fill="#e9ecff" font-size="14">~25% moins cher</text>
+							<text class="fragment" data-fragment-index="1" x="350" y="53" fill="#e9ecff" font-size="14">Utilisation plus elevee</text>
+							<text class="fragment" data-fragment-index="2" x="563" y="130" fill="#e9ecff" font-size="14">Plus lent aux USA</text>
+						</svg>
+					</div>
+					<div class="alicloud-grid" style="margin-top: 0.8rem;">
+						<div class="info-card fragment">
+							<h4>Atout cout</h4>
+							<p>Alibaba Cloud peut etre environ 25% moins cher que d'autres grands fournisseurs cloud.</p>
+						</div>
+						<div class="info-card fragment" data-fragment-index="1">
+							<h4>Consideration regionale</h4>
+							<p>Le service peut afficher des temps de reponse plus lents dans des pays comme les Etats-Unis, tout en restant efficace pour les charges lourdes dans ses regions fortes.</p>
+						</div>
+					</div>
+				</section>
+
+				<section class="normalsection">
+					<p class="section-kicker">Synthese</p>
+					<h3>Resume pour les decideurs</h3>
+					<div class="info-card">
+						<ul>
+							<li class="fragment">Alibaba Cloud est un leader regional en Chine et en Asie-Pacifique sur les services d'infrastructure.</li>
+							<li class="fragment">Son portefeuille couvre le calcul, le stockage, le reseau, les bases de donnees, les conteneurs, le cloud prive et l'IA.</li>
+							<li class="fragment">La competitivite en cout est forte, surtout pour les charges applicatives gourmandes en ressources.</li>
+							<li class="fragment">Les choix d'architecture doivent tenir compte des compromis de latence selon la geographie.</li>
+						</ul>
+					</div>
+					<p class="fragment" style="font-size: 0.52em; color: #aeb5d7; margin-top: 0.6rem;">
+						Bonne lecture : difference entre IaaS, PaaS et SaaS.
+					</p>
+				</section>
+			</section>
 		</div>
 	</div>
 

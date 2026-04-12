@@ -10,8 +10,15 @@ Features:
 - LangSmith tracing for observability
 """
 
+import sys
+from pathlib import Path
 import logging
 import chainlit as cl
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from app.agents.graph import get_graph
 from app.core.tracing import setup_langsmith_tracing, get_langsmith_config
 

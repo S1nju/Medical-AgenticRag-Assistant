@@ -17,7 +17,8 @@ from qdrant_client.models import (
     PointStruct,
     ScoredPoint,
     QueryRequest,
-    Query
+    Query,
+    NamedVector,
 )
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from transformers import AutoModelForMaskedLM, AutoTokenizer
@@ -189,13 +190,32 @@ class HybridRetriever:
         
         logger.info(f"Performing hybrid search for query: '{query[:50]}...'")
         
-        # Encode query with both methods
+        # Ensure the target collection exists before searching.
+        try:
+            self.client.get_collection(self.collection_name)
+        except Exception as e:
+            error_msg = str(e)
+            if "404" in error_msg:
+                logger.error(
+                    "Qdrant collection '%s' was not found at %s. "
+                    "Check QDRANT_COLLECTION_NAME and that the collection exists.",
+                    self.collection_name,
+                    self.qdrant_url,
+                )
+                return []
+            logger.warning("Could not verify collection before search: %s", error_msg)
+
+        # Encode query using dense embeddings.
         dense_vector = self.encode_query_dense(query)
         dense_vector_name = self._resolve_dense_vector_name()
         
         try:
-
-            query_vector = (dense_vector_name, dense_vector) if dense_vector_name else dense_vector
+            # qdrant-client expects NamedVector for named-vector collections, not tuple.
+            query_vector = (
+                NamedVector(name=dense_vector_name, vector=dense_vector)
+                if dense_vector_name
+                else dense_vector
+            )
             results = self.client.query_points(
                     collection_name=self.collection_name,
                     query=query_vector,
@@ -209,7 +229,7 @@ class HybridRetriever:
             for point in results.points:
                 doc = {
                     "id": point.id,
-                    "content": point.payload.get("chunk_text"),
+                    "content": point.payload.get("chunk_text") or point.payload.get("content", ""),
                     "metadata": point.payload,
                     "score": point.score,
                 }

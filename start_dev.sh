@@ -64,6 +64,6 @@ echo "✅ Starting Chainlit..."
 echo "=========================================="
 echo
 
-# Load environment and start Chainlit
+# Load environment and start Chainlit using uv environment
 
-chainlit run app/chainlit/chainlit_app.py --host 0.0.0.0 --port 8001
+uv run chainlit run app/chainlit/chainlit_app.py --host 0.0.0.0 --port 8001
